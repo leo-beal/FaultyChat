@@ -1,0 +1,6 @@
+/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles/rebuild_cache.dir
+/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles/FaultyChat.dir
+/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles/edit_cache.dir
+/cygdrive/d/cs/cs6890/FaultyChat/build/win/CMakeFiles/rebuild_cache.dir
+/cygdrive/d/cs/cs6890/FaultyChat/build/win/CMakeFiles/PDcurses.dir
+/cygdrive/d/cs/cs6890/FaultyChat/build/win/CMakeFiles/edit_cache.dir

@@ -1,6 +1,12 @@
 #include <iostream>
+#include "win/curses.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    initscr();
+
+    getch();
+
+    endwin();
+
     return 0;
 }

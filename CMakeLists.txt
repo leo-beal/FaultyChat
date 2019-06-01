@@ -4,3 +4,7 @@ project(FaultyChat)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(FaultyChat main.cpp)
+
+add_subdirectory(win)
+target_link_libraries(FaultyChat PRIVATE PDcurses)
+
