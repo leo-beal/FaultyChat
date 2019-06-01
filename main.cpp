@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Algorithms.hpp"
 #include "win/curses.h"
 
 int main() {
