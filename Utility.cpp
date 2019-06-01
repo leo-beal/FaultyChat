@@ -44,87 +44,33 @@ void util::end(){
     close(sockifd);
 }
 
-unsigned char* util::createWrite(const std::string &file, const unsigned int &loc, const unsigned short &len, const char *data) {
-    unsigned char* msg = new unsigned char[W_LEN];
+unsigned char* util::createMessage(
+        const uint64_t& uuid,
+        const uint32_t& length,
+        const char* data,
+        uint64_t& totalLength) {
 
-    //Set first byte to W (Write) opcode
-    msg[0] = 'W';
+    // size of opcode + size of uuid + size of length + length
+    totalLength = 1 + 8 + 4 + length;
+    unsigned char* msg = new unsigned char[totalLength];
 
-    //Set bytes 1 - 32 to the file to write to
-    for (int x = 0; x < 32; x++){
-        if(file.size() > x){
-            msg[x + 1] = file.at(x);
-        }
-        else{
-            msg[x + 1] = 0;
-        }
-    }
+    //Set first byte to M (Message) opcode
+    msg[0] = 'M';
 
-    //Set bytes 33-36 to the location
-    memcpy(msg + 33, (unsigned char *)&(loc), sizeof(loc));
+    //Set bytes 1-8 to the uuid
+    memcpy(msg + 1, (unsigned char *)&(uuid), 8);
 
-    //Set byte 37 to the data length
-    msg[37] = len;
+    //Set bytes 9-12 to the data length
+    memcpy(msg + 9, (unsigned char *)&(length), 4);
 
-    //Set bytes 38-47 to the data (no ending zero padding needed)
-    memcpy(msg + 38, data, static_cast<size_t>(len));
+    //Set bytes 13-10,000(max) to the data of the message
+    memcpy(msg + 13, data, length);
 
     return msg;
 }
 
-unsigned char* util::createRead(const std::string &file, const int &loc) {
-    unsigned char* msg = new unsigned char[R_LEN];
-
-    //Set first byte to R (Read) opcode
-    msg[0] = 'R';
-
-    //Set bytes 1 - 32 to the file to read from
-    for (int x = 0; x < 32; x++){
-        if(file.size() > x){
-            msg[x + 1] = file.at(x);
-        }
-        else{
-            msg[x + 1] = 0;
-        }
-    }
-
-    //Set bytes 33-36 to the location
-    memcpy(msg + 33, (unsigned char *)&(loc), sizeof(loc));
-
-    return msg;
-}
-
-bool util::validWrite(char *ack) {
-    if(ack[A_LEN - 1] == 0){
-        return false;
-    }else{
-        return true;
-    }
-}
-
-bool util::parseRead(char *data, char* &parsed, short& length) {
-    if(data[D_LEN - 1] == 0){
-        return false;
-    }else{
-        short len = data[37];
-        parsed = new char[len];
-        for (int x = 0; x < len; x++){
-            parsed[x] = data[x + 38];
-        }
-        //memcpy(parsed, data + 38, len);
-        length = len;
-        return true;
-    }
-}
-
-void util::sendUDP(const unsigned char *data) {
-
-    if(data[0] == 'W' || data[0] == 'w') {
-        sendto(sockifd, data, W_LEN, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
-    }
-    if(data[0] == 'R' || data[0] == 'r') {
-        sendto(sockifd, data, R_LEN, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
-    }
+void util::sendUDP(const unsigned char *data, const uint64_t& length) {
+    sendto(sockifd, data, length, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
 }
 
 unsigned char* util::getUDP(int& ret) {
@@ -143,14 +89,8 @@ unsigned char* util::getUDP(int& ret) {
 
     //std::cout << "Got message: " << buffer[0] << std::endl;
 
-    if(buffer[0] == 'A' || buffer[0] == 'a'){
-        retVal = new unsigned char[A_LEN];
-        memcpy(retVal, buffer, A_LEN);
-    }
-    if(buffer[0] == 'D' || buffer[0] == 'd'){
-        retVal = new unsigned char[D_LEN];
-        memcpy(retVal, buffer, D_LEN);
-    }
+    retVal = new unsigned char[ret];
+    memcpy(retVal, buffer, ret);
 
     return retVal;
 }

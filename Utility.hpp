@@ -13,15 +13,10 @@
 #include <netinet/in.h>
 #include <fstream>
 
-#define R_LEN 37
-#define D_LEN 49
-#define W_LEN 48
-#define A_LEN 49
-
 #define PORT_OUT 1982
 #define PORT_IN 1983
 
-#define MAXLINE 1024
+#define MAXLINE 20000
 
 
 
@@ -31,15 +26,13 @@ namespace util{
 
     void end();
 
-    unsigned char* createWrite(const std::string& file, const unsigned int& loc, const unsigned short& len, const char* data);
+    unsigned char* createMessage(
+            const uint64_t& uuid,
+            const uint32_t& length,
+            const char* data,
+            uint64_t& totalLength);
 
-    bool validWrite (char* ack);
-
-    unsigned char* createRead(const std::string& file, const int& loc);
-
-    bool parseRead(char* data, char* &parsed, short& length);
-
-    void sendUDP(const unsigned char* data);
+    void sendUDP(const unsigned char* data, const uint64_t& length);
 
     unsigned char* getUDP(int& ret);
 
