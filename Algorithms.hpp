@@ -13,9 +13,9 @@ namespace algo{
 
     char* devectorize (const std::vector<char*>& vect, const int &lenRem);
 
-    char* vote (const std::vector<char*>& vect, int dataLen);
+    char* encodeHamming (const std::vector<char*>& vect, int dataLen);
 
-    bool discrep (const std::vector<char*>& vect, int dataLen);
+    char* decodeHamming (const std::vector<char*>& vect, int dataLen);
 }
 
 #endif //FAULTYDISK_ALGORITHMS_HPP
