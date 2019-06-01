@@ -8,5 +8,7 @@ int main() {
 
     endwin();
 
+    std::cout << "Ur gay" << std::endl;
+
     return 0;
 }
