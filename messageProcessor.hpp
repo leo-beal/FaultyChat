@@ -4,17 +4,20 @@
 #include <mutex>
 #include <queue>
 #include <unordered_map>
+#include "Algorithms.hpp"
 
 class messageProcessor {
 public:
     messageProcessor();
     ~messageProcessor();
 
-    void uuid(char* msg);
-
+    void setHeader(char* msg);
+    void placeMessage(char* msg);
 private:
     std::queue<char*> messages;
+    std::queue<char*> messageParts;
     uint64_t lastUUID;
+    uint32_t length;
     uint32_t currentSeg;
     uint32_t totalSeg;
 };
