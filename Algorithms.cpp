@@ -79,5 +79,5 @@ char* algo::decodeHamming(const std::vector<char *> &vect, int dataLen){
             }
         }
     }
-    return des;
+    return (char*)'a';
 }
