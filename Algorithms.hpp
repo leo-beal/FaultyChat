@@ -15,7 +15,7 @@ namespace algo{
 
     char* encodeHamming (char* data, int dataLen);
 
-    char* decodeHamming (const std::vector<char*>& vect, int dataLen);
+    char* decodeHamming (char* data, int dataLen);
 }
 
 #endif //FAULTYDISK_ALGORITHMS_HPP
