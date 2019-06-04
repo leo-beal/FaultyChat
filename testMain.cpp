@@ -10,13 +10,21 @@ int main(){
 
     char* test = (char*)testString.c_str();
 
-    char* test2 = algo::encodeHamming(test, 4);
+    uint64_t totalLength;
 
-    char* testDec = algo::decodeHamming(test2, 8);
+    unsigned char* test2 = util::createMessage(654852, 4, test, totalLength);
 
-    std::string toPrint (testDec, 4);
+    uint64_t uuid;
+    uint32_t length = 0;
 
-    std::cout << testDec << std::endl;
+    unsigned char* test3 = util::parseMessage((char*)test2, uuid, length, totalLength);
+
+    std::string test4((char*)test3, length);
+
+    std::cout << "uuid: " << uuid << std::endl
+    << "length: " << length << std::endl
+    << "total Length: " << totalLength << std::endl
+    << "String: " << test4 << std::endl;
 
     return 0;
 }
