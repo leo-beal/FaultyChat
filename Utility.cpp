@@ -1,3 +1,4 @@
+#include <bitset>
 #include "Utility.hpp"
 
 int sockofd;
@@ -67,6 +68,40 @@ unsigned char* util::createMessage(
     memcpy(msg + 13, data, length);
 
     return msg;
+}
+
+
+//for (i = 0; i < N; i += 4)
+//thirty_two[i/4] = bytes[i] | (uint32_t)bytes[i+1] << 8
+//| (uint32_t)bytes[i+2] << 16 | (uint32_t)bytes[i+3] << 24;
+
+unsigned char* util::parseMessage(const char *data,
+        uint64_t &uuid,
+        uint32_t &length,
+        uint64_t &totalLength) {
+
+    std::string uuidTemp;
+    for(int x = 7; x >= 0; x--){
+        uuidTemp += std::bitset<8>(data[x+1]).to_string();
+    }
+    uuid = std::bitset<64>(uuidTemp).to_ulong();
+
+    std::string lengthTemp;
+    for(int x = 3; x >= 0; x--){
+        lengthTemp += std::bitset<8>(data[x + 9]).to_string();
+    }
+
+    length = std::bitset<32>(lengthTemp).to_ullong();
+
+    totalLength = 1 + 8 + 4 + length;
+    unsigned char* msg = new unsigned char[length];
+
+    for(int x = 0; x < length; x++){
+        msg[x] = data[x + 13];
+    }
+
+    return msg;
+
 }
 
 void util::sendUDP(const unsigned char *data, const uint64_t& length) {

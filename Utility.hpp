@@ -32,6 +32,13 @@ namespace util{
             const char* data,
             uint64_t& totalLength);
 
+    unsigned char* parseMessage(
+            const char* data,
+            uint64_t& uuid,
+            uint32_t& length,
+            uint64_t& totalLength
+            );
+
     void sendUDP(const unsigned char* data, const uint64_t& length);
 
     unsigned char* getUDP(int& ret);
