@@ -100,15 +100,55 @@ char* algo::encodeHamming(char* data, int dataLen){
     return toReturn;
 }
 
-char* algo::decodeHamming(const std::vector<char *> &vect, int dataLen){
-    bool des = false;
-    for(int x = 0; x < vect.size() - 1; x++){
-        for(int y = 0; y < dataLen; y++){
-            char temp = vect[x][y] ^ vect[x + 1][y];
-            if((int)temp != 0){
-                des = true;
+char* algo::decodeHamming(char* data, int dataLen){
+    char* toReturn = new char[dataLen / 2];
+    std::vector<std::string> parts;
+    int dataBits[4] = {2, 4, 5, 6};
+    int paraty[3] = {0, 1, 3};
+
+    for(int x = 0; x < dataLen; x++){
+        std::string byte = std::bitset<8>(data[x]).to_string();
+        std::string nybble;
+        int toFlip = 0;
+        int check[3] = {2, 4, 6};
+        for(int y = 0; y < 3; y++){
+            int count1s = 0;
+            for(int z = 0; z < 3; z++){
+                if(byte.at(check[z]) == '1'){
+                    count1s++;
+                }
+            }//End Z loop
+            if(count1s%2 == 0 && byte.at(paraty[y]) == '1'){
+                toFlip += paraty[y] + 1;
             }
+            if(count1s%2 == 1 && byte.at(paraty[y]) == '0'){
+                toFlip += paraty[y] + 1;
+            }
+            if(y == 0){
+                check[1]++;
+            }
+            if(y == 1){
+                check[0]+=2;
+            }
+        }//End Y loop
+        if(toFlip == 0){
+            toFlip++;
         }
+        if(byte.at(toFlip-1) == '1'){
+            byte.at(toFlip-1) = '0';
+        }else{
+            byte.at(toFlip-1) = '1';
+        }
+        for(int i = 0; i < 4; i++){
+            nybble+=byte.at(dataBits[i]);
+        }//End I loop
+        parts.push_back(nybble);
+    }//End X loop
+
+    for(int j = 0; j < parts.size(); j+=2){
+        std::string total = parts[j] + parts[j + 1];
+        toReturn[j/2] = std::bitset<8>(total).to_ulong();
     }
-    return (char*)'a';
+
+    return toReturn;
 }
