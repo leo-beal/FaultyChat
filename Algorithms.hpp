@@ -13,7 +13,7 @@ namespace algo{
 
     char* devectorize (const std::vector<char*>& vect, const int &lenRem);
 
-    char* encodeHamming (const std::vector<char*>& vect, int dataLen);
+    char* encodeHamming (char* data, int dataLen);
 
     char* decodeHamming (const std::vector<char*>& vect, int dataLen);
 }

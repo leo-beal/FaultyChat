@@ -32,40 +32,70 @@ char* algo::devectorize(const std::vector<char *> &vect, const int &lenRem) {
     return memblock;
 }
 
-char* algo::encodeHamming(const std::vector<char *> &vect, int dataLen){
-    char* toReturn = new char[dataLen];
-    std::vector<std::string> voters;
-    for(int x = 0; x < vect.size(); x++){
-        std::string tempVoter = "";
-        for(int y = 0; y < dataLen; y++){
-            tempVoter += std::bitset<8>(vect[x][y]).to_string();
-        }
-        voters.push_back(tempVoter);
-    }
+char* algo::encodeHamming(char* data, int dataLen){
+    char* toReturn = new char[dataLen * 2];
+    int toRetPos = 0;
 
-    std::string voted = "";
-    for(int x = 0; x < voters[0].length(); x++){
-        int num1 = 0;
-        int num0 = 0;
-        for(int y = 0; y < voters.size(); y++){
-            if(voters[y].at(x) == '1'){
-                num1++;
-            }else{
-                num0++;
-            }
-        }
-        if(num1 > num0){
-            voted += "1";
-        }else{
-            voted += "0";
-        }
-    }
+    for(int x = 0; x < dataLen; x++){
+        std::string bits = std::bitset<8>(data[x]).to_string();
+        std::string firstHalf = bits.substr(0, 4);
+        std::string secondHalf = bits.substr(4, 4);
+        std::string firstByte;
+        std::string secondByte;
+        for(int y = 0; y < 2; y++){
 
-    for(int x = 0; x < voted.length() / 8; x++){
-        unsigned long ret = std::bitset<8>(voted.substr(0 + x*8, 8)).to_ulong();
-        toReturn[x] = (char)ret;
-    }
-    //toReturn[len] = '\0';
+            int check[3] = {0, 1, 3};
+            for(int z = 0; z < 3; z++){
+                int count1s = 0;
+                for(int a = 0; a < 3; a++){
+                    if(y == 0){
+                        if(firstHalf.at(check[a]) == '1'){
+                            count1s++;
+                        }
+                    }
+                    else{
+                        if(secondHalf.at(check[a]) == '1'){
+                            count1s++;
+                        }
+                    }
+                }//End A loop
+
+                if(y == 0){
+                    if(count1s%2 == 0){
+                        firstByte += "0";
+                    }else{
+                        firstByte += "1";
+                    }
+                }else{
+                    if(count1s%2 == 0){
+                        secondByte += "0";
+                    }else{
+                        secondByte += "1";
+                    }
+                }
+                if(z == 0){
+                    check[1]++;
+                }
+                if(z == 1){
+                    check[0]++;
+                }
+
+            }//End Z loop
+
+        }//End Y loop
+
+        firstByte.insert(2, firstHalf, 0, 1);
+        firstByte += firstHalf.substr(1, 3) + "0";
+        secondByte.insert(2, secondHalf, 0, 1);
+        secondByte += secondHalf.substr(1, 3) + "0";
+        char first = std::bitset<8>(firstByte).to_ulong();
+        char second = std::bitset<8>(firstByte).to_ulong();
+        toReturn[toRetPos] = first;
+        toRetPos++;
+        toReturn[toRetPos] = second;
+
+    }//End X loop
+
     return toReturn;
 }
 
