@@ -89,7 +89,7 @@ char* algo::encodeHamming(char* data, int dataLen){
         secondByte.insert(2, secondHalf, 0, 1);
         secondByte += secondHalf.substr(1, 3) + "0";
         char first = std::bitset<8>(firstByte).to_ulong();
-        char second = std::bitset<8>(firstByte).to_ulong();
+        char second = std::bitset<8>(secondByte).to_ulong();
         toReturn[toRetPos] = first;
         toRetPos++;
         toReturn[toRetPos] = second;
