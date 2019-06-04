@@ -93,6 +93,7 @@ char* algo::encodeHamming(char* data, int dataLen){
         toReturn[toRetPos] = first;
         toRetPos++;
         toReturn[toRetPos] = second;
+        toRetPos++;
 
     }//End X loop
 
