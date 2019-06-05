@@ -5,19 +5,26 @@
 #include <queue>
 #include <unordered_map>
 #include "Algorithms.hpp"
+#include "Utility.hpp"
 
 class messageProcessor {
 public:
     messageProcessor();
     ~messageProcessor();
 
-    void setHeader(char* msg);
+    void print();
+    void parseMessageQueueItem();
     void placeMessage(char* msg);
+
+    bool emptyPrint();
+    bool emptyMessages();
 private:
+    std::queue<char*> toPrint;
     std::queue<char*> messages;
-    std::queue<char*> messageParts;
+    char* data;
     uint64_t lastUUID;
     uint32_t length;
+    uint64_t totalLength;
     uint32_t currentSeg;
     uint32_t totalSeg;
 };
