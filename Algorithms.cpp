@@ -5,7 +5,7 @@ char* algo::encodeHamming(char* data, uint64_t& dataLen){
     char* toReturn = new char[dataLen];
     int toRetPos = 0;
 
-    for(int x = 0; x < dataLen; x++){
+    for(int x = 0; x < dataLen / 2; x++){
         std::string bits = std::bitset<8>(data[x]).to_string();
         std::string firstHalf = bits.substr(0, 4);
         std::string secondHalf = bits.substr(4, 4);
@@ -76,7 +76,7 @@ char* algo::decodeHamming(char* data, uint64_t& dataLen){
     int dataBits[4] = {2, 4, 5, 6};
     int paraty[3] = {0, 1, 3};
 
-    for(int x = 0; x < dataLen; x++){
+    for(int x = 0; x < dataLen * 2; x++){
         std::string byte = std::bitset<8>(data[x]).to_string();
         std::string nybble;
         int toFlip = 0;
@@ -115,7 +115,7 @@ char* algo::decodeHamming(char* data, uint64_t& dataLen){
         parts.push_back(nybble);
     }//End X loop
 
-    for(int j = 0; j < parts.size(); j+=2){
+    for(int j = 0; j < parts.size() - 1; j+=2){
         std::string total = parts[j] + parts[j + 1];
         toReturn[j/2] = std::bitset<8>(total).to_ulong();
     }
