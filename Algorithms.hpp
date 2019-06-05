@@ -9,9 +9,9 @@
 #include <cstring>
 
 namespace algo{
-    char* encodeHamming (char* data, int dataLen);
+    char* encodeHamming (char* data, uint64_t& dataLen);
 
-    char* decodeHamming (char* data, int dataLen);
+    char* decodeHamming (char* data, uint64_t& dataLen);
 }
 
 #endif //FAULTYDISK_ALGORITHMS_HPP

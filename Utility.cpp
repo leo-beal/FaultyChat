@@ -85,11 +85,15 @@ unsigned char* util::parseMessage(const char *data,
         uint32_t &length,
         uint64_t &totalLength) {
 
+    std::cout << "Begin parse" << std::endl;
+
     std::string uuidTemp;
     for(int x = 7; x >= 0; x--){
         uuidTemp += std::bitset<8>(data[x+1]).to_string();
     }
     uuid = std::bitset<64>(uuidTemp).to_ulong();
+
+    std::cout << "UUID is " << uuid << std::endl;
 
     std::string lengthTemp;
     for(int x = 3; x >= 0; x--){
@@ -97,6 +101,8 @@ unsigned char* util::parseMessage(const char *data,
     }
 
     length = std::bitset<32>(lengthTemp).to_ullong();
+
+    std::cout << "Length is " << length << " (" << lengthTemp << ")" << std::endl;
 
     totalLength = 1 + 8 + 4 + length;
     unsigned char* msg = new unsigned char[length];

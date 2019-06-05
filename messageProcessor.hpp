@@ -11,18 +11,19 @@
 class messageProcessor {
 public:
     messageProcessor();
+    messageProcessor(int test);
     ~messageProcessor();
 
     void print();
     void parseMessageQueueItem();
-    void placeMessage(char* msg, uint32_t length);
+    void placeMessage(char* msg, uint64_t mlength);
 
     bool emptyPrint();
     bool emptyMessages();
 private:
     //std::unordered_map<char*, uint32_t> message;
     std::queue<char*> toPrint;
-    std::queue<std::pair<char*, uint32_t>> messages;
+    std::queue<std::pair<char*, uint64_t>> messages;
     char* data;
     uint64_t lastUUID;
     uint32_t length;

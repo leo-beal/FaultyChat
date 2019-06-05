@@ -18,9 +18,42 @@ void sender(){
         }else {
             uint64_t total = 0;
             auto data = util::createMessage(increment, readin.length(), readin.c_str(), total);
+            std::cout << "original bytes are" << std::endl;
+            for(int x = 0; x < total; x++){
+                std::cout << std::bitset<8>(data[x]).to_string() << std::endl;
+            }
             auto send = algo::encodeHamming((char *) data, total);
+            std::cout << "Sending packet of length " << total << std::endl;
+            std::cout << "bytes are" << std::endl;
+            for(int x = 0; x < total; x++){
+                std::cout << std::bitset<8>(send[x]).to_string() << std::endl;
+            }
             util::sendUDP((unsigned char *) send, total);
             increment++;
+        }
+    }
+}
+
+void recvAndParse(messageProcessor& proc, bool rec){
+    while(running){
+        if(rec){
+            int ret;
+            auto msg = util::getUDP(ret);
+            if(ret > 1){
+                std::cout << "Got message" << std::endl;
+                proc.placeMessage((char*)msg, ret);
+            }
+        }else{
+            if(!proc.emptyPrint()){
+                std::cout << "atempting print" << std::endl;
+                proc.print();
+            }
+            if(!proc.emptyMessages()){
+                std::cout << "atempting parse" << std::endl;
+                proc.parseMessageQueueItem();
+            }
+            //std::cout << "Nothing to process" << std::endl;
+            Sleep(500);
         }
     }
 }
@@ -56,7 +89,7 @@ int main(int argc, char* argv[]) {
     int portIn = 0;
     int portOut = 0;
 
-    increment = 0;
+    increment = 10;
 
     for(int x = 0; x < argc; x++){
         if(std::string(argv[x]) == "-pI"){
@@ -79,15 +112,15 @@ int main(int argc, char* argv[]) {
 
     util::init(portIn, portOut);
 
-    messageProcessor proc;
+    messageProcessor proc(1);
 
     running = true;
 
     //initscr();
 
     std::thread send(sender);
-    std::thread recive(reciver, std::ref(proc));
-    std::thread parse(parser, std::ref(proc));
+    std::thread recive(recvAndParse, std::ref(proc), true);
+    std::thread parse(recvAndParse, std::ref(proc), false);
 
     //getch();
 

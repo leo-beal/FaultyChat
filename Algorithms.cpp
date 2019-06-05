@@ -1,7 +1,8 @@
 #include "Algorithms.hpp"
 
-char* algo::encodeHamming(char* data, int dataLen){
-    char* toReturn = new char[dataLen * 2];
+char* algo::encodeHamming(char* data, uint64_t& dataLen){
+    dataLen = dataLen * 2;
+    char* toReturn = new char[dataLen];
     int toRetPos = 0;
 
     for(int x = 0; x < dataLen; x++){
@@ -68,8 +69,9 @@ char* algo::encodeHamming(char* data, int dataLen){
     return toReturn;
 }
 
-char* algo::decodeHamming(char* data, int dataLen){
-    char* toReturn = new char[dataLen / 2];
+char* algo::decodeHamming(char* data, uint64_t& dataLen){
+    dataLen = dataLen / 2;
+    char* toReturn = new char[dataLen];
     std::vector<std::string> parts;
     int dataBits[4] = {2, 4, 5, 6};
     int paraty[3] = {0, 1, 3};
