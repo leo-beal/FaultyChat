@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include <queue>
+#include <map>
 #include <unordered_map>
 #include "Algorithms.hpp"
 #include "Utility.hpp"
@@ -14,13 +15,14 @@ public:
 
     void print();
     void parseMessageQueueItem();
-    void placeMessage(char* msg);
+    void placeMessage(char* msg, uint32_t length);
 
     bool emptyPrint();
     bool emptyMessages();
 private:
+    //std::unordered_map<char*, uint32_t> message;
     std::queue<char*> toPrint;
-    std::queue<char*> messages;
+    std::queue<std::pair<char*, uint32_t>> messages;
     char* data;
     uint64_t lastUUID;
     uint32_t length;

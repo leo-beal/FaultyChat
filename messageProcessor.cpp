@@ -12,21 +12,35 @@ messageProcessor::~messageProcessor() {
 
 }
 
+void messageProcessor::print() {
+    char* p = toPrint.front();
+    toPrint.pop();
+    std::string msg(p, length);
+    std::cout << msg << std::endl;
+}
+
 void messageProcessor::parseMessageQueueItem() {
-    char* msg = messages.front();
+    auto msg = messages.front();
     messages.pop();
-    if(msg[0] == 'M') {
+    if(msg.first[0] == 'M') {
         uint64_t uuidNext;
-        data = (char *) util::parseMessage(msg, uuidNext, length, totalLength);
+        data = algo::decodeHamming(msg.first, msg.second);
+        auto final = util::parseMessage(data, uuidNext, length, totalLength);
+
         if(uuidNext != lastUUID){
-            toPrint.push(data);
+            toPrint.push((char*)final);
             lastUUID = uuidNext;
         }
     }
 }
 
-void messageProcessor::placeMessage(char* msg){
-    messages.push(msg);
+void messageProcessor::placeMessage(char* msg, uint32_t length){
+    std::pair<char*, uint32_t> message(msg, length);
+    messages.push(message);
+    std::cout << "Pushed message" << std::endl;
+    if(messages.empty()){
+        std::cout << "Still empty" << std::endl;
+    }
 }
 
 bool messageProcessor::emptyMessages() {
