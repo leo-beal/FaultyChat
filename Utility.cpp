@@ -6,7 +6,7 @@ int sockifd;
 struct sockaddr_in servoaddr;
 struct sockaddr_in serviaddr;
 
-void util::init(){
+void util::init(int portIn, int portOut){
     // Creating socket file descriptor for output
     //if ( (sockofd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
     //    perror("socket creation failed");
@@ -24,18 +24,23 @@ void util::init(){
 
     // Filling server information
     servoaddr.sin_family = AF_INET;
-    servoaddr.sin_port = htons(PORT_OUT);
+    servoaddr.sin_port = htons(portOut);
     servoaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     serviaddr.sin_family = AF_INET;
-    serviaddr.sin_port = htons(PORT_IN);
+    serviaddr.sin_port = htons(portIn);
     serviaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    int time = 1000;
+    //setsockopt(sockifd, SOL_SOCKET, SO_RCVTIMEO, &time, 4);
 
     if (bind(sockifd, (struct sockaddr *)&serviaddr, sizeof(serviaddr)) < 0) {
         perror("bind failed");
         close(sockifd);
         goto breakFunc;
     }
+
+    sendto(sockifd, (char*)1, 1, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
 
     breakFunc:;
 }

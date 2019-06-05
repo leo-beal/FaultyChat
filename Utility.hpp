@@ -13,16 +13,13 @@
 #include <netinet/in.h>
 #include <fstream>
 
-#define PORT_OUT 1982
-#define PORT_IN 1983
-
 #define MAXLINE 21000
 
 
 
 namespace util{
 
-    void init();
+    void init(int portIn, int portOut);
 
     void end();
 
