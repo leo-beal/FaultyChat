@@ -70,18 +70,63 @@ CMakeFiles/FaultyChat.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FaultyChat.dir/main.cpp.s"
 	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/d/cs/cs6890/FaultyChat/main.cpp -o CMakeFiles/FaultyChat.dir/main.cpp.s
 
+CMakeFiles/FaultyChat.dir/Algorithms.cpp.o: CMakeFiles/FaultyChat.dir/flags.make
+CMakeFiles/FaultyChat.dir/Algorithms.cpp.o: ../Algorithms.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/FaultyChat.dir/Algorithms.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FaultyChat.dir/Algorithms.cpp.o -c /cygdrive/d/cs/cs6890/FaultyChat/Algorithms.cpp
+
+CMakeFiles/FaultyChat.dir/Algorithms.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FaultyChat.dir/Algorithms.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/d/cs/cs6890/FaultyChat/Algorithms.cpp > CMakeFiles/FaultyChat.dir/Algorithms.cpp.i
+
+CMakeFiles/FaultyChat.dir/Algorithms.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FaultyChat.dir/Algorithms.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/d/cs/cs6890/FaultyChat/Algorithms.cpp -o CMakeFiles/FaultyChat.dir/Algorithms.cpp.s
+
+CMakeFiles/FaultyChat.dir/Utility.cpp.o: CMakeFiles/FaultyChat.dir/flags.make
+CMakeFiles/FaultyChat.dir/Utility.cpp.o: ../Utility.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/FaultyChat.dir/Utility.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FaultyChat.dir/Utility.cpp.o -c /cygdrive/d/cs/cs6890/FaultyChat/Utility.cpp
+
+CMakeFiles/FaultyChat.dir/Utility.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FaultyChat.dir/Utility.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/d/cs/cs6890/FaultyChat/Utility.cpp > CMakeFiles/FaultyChat.dir/Utility.cpp.i
+
+CMakeFiles/FaultyChat.dir/Utility.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FaultyChat.dir/Utility.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/d/cs/cs6890/FaultyChat/Utility.cpp -o CMakeFiles/FaultyChat.dir/Utility.cpp.s
+
+CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o: CMakeFiles/FaultyChat.dir/flags.make
+CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o: ../messageProcessor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o -c /cygdrive/d/cs/cs6890/FaultyChat/messageProcessor.cpp
+
+CMakeFiles/FaultyChat.dir/messageProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FaultyChat.dir/messageProcessor.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/d/cs/cs6890/FaultyChat/messageProcessor.cpp > CMakeFiles/FaultyChat.dir/messageProcessor.cpp.i
+
+CMakeFiles/FaultyChat.dir/messageProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FaultyChat.dir/messageProcessor.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/d/cs/cs6890/FaultyChat/messageProcessor.cpp -o CMakeFiles/FaultyChat.dir/messageProcessor.cpp.s
+
 # Object files for target FaultyChat
 FaultyChat_OBJECTS = \
-"CMakeFiles/FaultyChat.dir/main.cpp.o"
+"CMakeFiles/FaultyChat.dir/main.cpp.o" \
+"CMakeFiles/FaultyChat.dir/Algorithms.cpp.o" \
+"CMakeFiles/FaultyChat.dir/Utility.cpp.o" \
+"CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o"
 
 # External object files for target FaultyChat
 FaultyChat_EXTERNAL_OBJECTS =
 
 FaultyChat.exe: CMakeFiles/FaultyChat.dir/main.cpp.o
+FaultyChat.exe: CMakeFiles/FaultyChat.dir/Algorithms.cpp.o
+FaultyChat.exe: CMakeFiles/FaultyChat.dir/Utility.cpp.o
+FaultyChat.exe: CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o
 FaultyChat.exe: CMakeFiles/FaultyChat.dir/build.make
 FaultyChat.exe: win/libPDcurses.a
 FaultyChat.exe: CMakeFiles/FaultyChat.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable FaultyChat.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/d/cs/cs6890/FaultyChat/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable FaultyChat.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/FaultyChat.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

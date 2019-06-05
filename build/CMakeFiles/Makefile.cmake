@@ -49,5 +49,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/FaultyChat.dir/DependInfo.cmake"
+  "CMakeFiles/FaultyTest.dir/DependInfo.cmake"
   "win/CMakeFiles/PDcurses.dir/DependInfo.cmake"
   )

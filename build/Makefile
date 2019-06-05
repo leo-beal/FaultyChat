@@ -124,6 +124,19 @@ FaultyChat/fast:
 .PHONY : FaultyChat/fast
 
 #=============================================================================
+# Target rules for targets named FaultyTest
+
+# Build rule for target.
+FaultyTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 FaultyTest
+.PHONY : FaultyTest
+
+# fast build rule for target.
+FaultyTest/fast:
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/build
+.PHONY : FaultyTest/fast
+
+#=============================================================================
 # Target rules for targets named PDcurses
 
 # Build rule for target.
@@ -135,6 +148,66 @@ PDcurses: cmake_check_build_system
 PDcurses/fast:
 	$(MAKE) -f win/CMakeFiles/PDcurses.dir/build.make win/CMakeFiles/PDcurses.dir/build
 .PHONY : PDcurses/fast
+
+Algorithms.o: Algorithms.cpp.o
+
+.PHONY : Algorithms.o
+
+# target to build an object file
+Algorithms.cpp.o:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Algorithms.cpp.o
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Algorithms.cpp.o
+.PHONY : Algorithms.cpp.o
+
+Algorithms.i: Algorithms.cpp.i
+
+.PHONY : Algorithms.i
+
+# target to preprocess a source file
+Algorithms.cpp.i:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Algorithms.cpp.i
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Algorithms.cpp.i
+.PHONY : Algorithms.cpp.i
+
+Algorithms.s: Algorithms.cpp.s
+
+.PHONY : Algorithms.s
+
+# target to generate assembly for a file
+Algorithms.cpp.s:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Algorithms.cpp.s
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Algorithms.cpp.s
+.PHONY : Algorithms.cpp.s
+
+Utility.o: Utility.cpp.o
+
+.PHONY : Utility.o
+
+# target to build an object file
+Utility.cpp.o:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Utility.cpp.o
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Utility.cpp.o
+.PHONY : Utility.cpp.o
+
+Utility.i: Utility.cpp.i
+
+.PHONY : Utility.i
+
+# target to preprocess a source file
+Utility.cpp.i:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Utility.cpp.i
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Utility.cpp.i
+.PHONY : Utility.cpp.i
+
+Utility.s: Utility.cpp.s
+
+.PHONY : Utility.s
+
+# target to generate assembly for a file
+Utility.cpp.s:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/Utility.cpp.s
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/Utility.cpp.s
+.PHONY : Utility.cpp.s
 
 main.o: main.cpp.o
 
@@ -163,6 +236,63 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+messageProcessor.o: messageProcessor.cpp.o
+
+.PHONY : messageProcessor.o
+
+# target to build an object file
+messageProcessor.cpp.o:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/messageProcessor.cpp.o
+.PHONY : messageProcessor.cpp.o
+
+messageProcessor.i: messageProcessor.cpp.i
+
+.PHONY : messageProcessor.i
+
+# target to preprocess a source file
+messageProcessor.cpp.i:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/messageProcessor.cpp.i
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/messageProcessor.cpp.i
+.PHONY : messageProcessor.cpp.i
+
+messageProcessor.s: messageProcessor.cpp.s
+
+.PHONY : messageProcessor.s
+
+# target to generate assembly for a file
+messageProcessor.cpp.s:
+	$(MAKE) -f CMakeFiles/FaultyChat.dir/build.make CMakeFiles/FaultyChat.dir/messageProcessor.cpp.s
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/messageProcessor.cpp.s
+.PHONY : messageProcessor.cpp.s
+
+testMain.o: testMain.cpp.o
+
+.PHONY : testMain.o
+
+# target to build an object file
+testMain.cpp.o:
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/testMain.cpp.o
+.PHONY : testMain.cpp.o
+
+testMain.i: testMain.cpp.i
+
+.PHONY : testMain.i
+
+# target to preprocess a source file
+testMain.cpp.i:
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/testMain.cpp.i
+.PHONY : testMain.cpp.i
+
+testMain.s: testMain.cpp.s
+
+.PHONY : testMain.s
+
+# target to generate assembly for a file
+testMain.cpp.s:
+	$(MAKE) -f CMakeFiles/FaultyTest.dir/build.make CMakeFiles/FaultyTest.dir/testMain.cpp.s
+.PHONY : testMain.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -170,12 +300,25 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... FaultyChat"
 	@echo "... edit_cache"
+	@echo "... FaultyChat"
+	@echo "... FaultyTest"
 	@echo "... PDcurses"
+	@echo "... Algorithms.o"
+	@echo "... Algorithms.i"
+	@echo "... Algorithms.s"
+	@echo "... Utility.o"
+	@echo "... Utility.i"
+	@echo "... Utility.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... messageProcessor.o"
+	@echo "... messageProcessor.i"
+	@echo "... messageProcessor.s"
+	@echo "... testMain.o"
+	@echo "... testMain.i"
+	@echo "... testMain.s"
 .PHONY : help
 
 

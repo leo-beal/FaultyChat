@@ -1,5 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/FaultyChat.dir/main.cpp.o"
+  "CMakeFiles/FaultyChat.dir/Algorithms.cpp.o"
+  "CMakeFiles/FaultyChat.dir/Utility.cpp.o"
+  "CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o"
   "FaultyChat.pdb"
   "FaultyChat.exe"
   "libFaultyChat.dll.a"

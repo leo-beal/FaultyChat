@@ -1,1 +1,1 @@
-/usr/bin/c++.exe   -Wl,--enable-auto-import CMakeFiles/FaultyChat.dir/main.cpp.o  -o FaultyChat.exe -Wl,--out-implib,libFaultyChat.dll.a -Wl,--major-image-version,0,--minor-image-version,0 win/libPDcurses.a 
+/usr/bin/c++.exe   -Wl,--enable-auto-import CMakeFiles/FaultyChat.dir/main.cpp.o CMakeFiles/FaultyChat.dir/Algorithms.cpp.o CMakeFiles/FaultyChat.dir/Utility.cpp.o CMakeFiles/FaultyChat.dir/messageProcessor.cpp.o  -o FaultyChat.exe -Wl,--out-implib,libFaultyChat.dll.a -Wl,--major-image-version,0,--minor-image-version,0 win/libPDcurses.a 
