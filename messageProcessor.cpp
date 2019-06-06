@@ -73,7 +73,6 @@ void messageProcessor::parseMessageQueueItem() {
         auto final = util::parseFile(data, uuidNext, length, nextSeg, nextTotal, nextName, totalLength);
 
         if(uuidNext != lastUUID && nextSeg != currentSeg){
-            std::cout << "Got file message" << std::endl;
             std::cout << length << " " << nextSeg << " " << nextTotal << std::endl;
             toWrite.push(std::pair((char*)final, length));
             //lastUUID = uuidNext;
@@ -85,7 +84,6 @@ void messageProcessor::parseMessageQueueItem() {
             delete final;
         }
         if(currentSeg == totalSeg){
-            std::cout << "Printing file message" << std::endl;
             lastUUID = uuidNext;
             currentSeg = -1;
             write();
