@@ -139,6 +139,7 @@ int main(int argc, char* argv[]) {
 
     int portIn = 0;
     int portOut = 0;
+    copies = 20;
 
     increment = 10;
 
