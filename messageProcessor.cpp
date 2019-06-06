@@ -39,7 +39,8 @@ void messageProcessor::write(){
         memcpy(p + ((parts.size() - 1) * 10000), parts[parts.size() - 1], 10000);
     }
     util::writeBlcok(workingPath + "/" + name, (unsigned char *) p, size);
-    std::cout << "You got a file" << std::endl;
+    std::cout << "You got a file:" << std::endl;
+    std::cout << workingPath + "/" + name << std::endl;
 }
 
 void messageProcessor::print() {
