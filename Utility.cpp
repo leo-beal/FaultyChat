@@ -79,7 +79,7 @@ unsigned char* util::createMessage(
     return msg;
 }
 
-char* createFile(
+char* util::createFile(
         const uint64_t& uuid,
         const uint32_t& length,
         const uint32_t part,
@@ -108,7 +108,15 @@ char* createFile(
     memcpy(msg + 17, (unsigned char *)&(total), 4);
 
     //Set bytes 21-42 to the name
-    memcpy(msg + 21, (unsigned char *)(name.c_str()), 32);
+    //memcpy(msg + 21, (unsigned char *)(name.c_str()), 32);
+
+    for(int x = 0; x < 32; x++){
+        if(x < name.length()) {
+            msg[x + 21] = name.at(x);
+        }else{
+            msg[x + 21] = 0;
+        }
+    }
 
     //Set bytes 53-10,052(max) to the data of the message
     memcpy(msg + 53, data, length);
@@ -151,9 +159,9 @@ unsigned char* util::parseMessage(const char *data,
 char* util::parseFile(const char *data,
                                uint64_t& uuid,
                                uint32_t& length,
-                               uint32_t part,
-                               uint32_t total,
-                               std::string name,
+                               uint32_t& part,
+                               uint32_t& total,
+                               std::string& name,
                                   uint64_t &totalLength) {
 
     std::string uuidTemp;
@@ -174,14 +182,14 @@ char* util::parseFile(const char *data,
         partTemp += std::bitset<8>(data[x + 13]).to_string();
     }
 
-    part = std::bitset<32>(lengthTemp).to_ullong();
+    part = std::bitset<32>(partTemp).to_ullong();
 
     std::string totalTemp;
     for(int x = 3; x >= 0; x--){
         totalTemp += std::bitset<8>(data[x + 17]).to_string();
     }
 
-    total = std::bitset<32>(lengthTemp).to_ullong();
+    total = std::bitset<32>(totalTemp).to_ullong();
 
     totalLength = 1 + 8 + 4 + 4 + 4 + 32 + length;
 
@@ -261,4 +269,5 @@ char* util::readBlock(const std::string& path, int& segs, int& remLen) {
 void util::writeBlcok(const std::string& path, unsigned char *memBlock, const int &size) {
     std::ofstream fileOut (path, std::ios::out | std::ios::binary | std::ios::app);
     fileOut.write ((char*)memBlock, size);
+    fileOut.close();
 }

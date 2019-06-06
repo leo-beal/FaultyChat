@@ -48,9 +48,9 @@ namespace util{
     char* parseFile(const char *data,
                                    uint64_t& uuid,
                                    uint32_t& length,
-                                   uint32_t part,
-                                   uint32_t total,
-                                   std::string name,
+                                   uint32_t& part,
+                                   uint32_t& total,
+                                   std::string& name,
                                    uint64_t &totalLength);
 
     void sendUDP(const unsigned char* data, const uint64_t& length);

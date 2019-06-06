@@ -14,13 +14,14 @@ int copies;
 void sender(){
     while (running){
         std::string readin;
-        std::cin >> readin;
+        std::getline(std::cin, readin);
+        //std::cin >> readin;
         if(readin == "exit"){
             running = false;
         }
         else if(readin.substr(0, 2) == "/F"){
-            std::string path = workingPath + "/" + readin.substr(3);
-            std::string name = readin.substr(3);
+            std::string path = workingPath + "/" + readin.substr(3, readin.length() - 3);
+            std::string name = readin.substr(3, readin.length() - 3);
             int segs;
             int rem;
             char* file = util::readBlock(path, segs, rem);
@@ -48,7 +49,8 @@ void sender(){
                             rem,
                             parts.size() - 1,
                             parts.size() - 1,
-                            name, parts[parts.size() - 1],
+                            name,
+                            parts[parts.size() - 1],
                             total);
                     auto send = algo::encodeHamming((char *) data, total);
                     for(int y = 0; y < copies; y++) {
@@ -70,6 +72,7 @@ void sender(){
                     }
                 }
             }
+            increment++;
         }
         else if(readin.substr(0, 2) == "/C"){
             copies = std::stoi(readin.substr(3));

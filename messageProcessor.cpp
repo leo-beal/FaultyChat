@@ -22,12 +22,23 @@ messageProcessor::~messageProcessor() {
 }
 
 void messageProcessor::write(){
+    int size = 0;
+    std::vector<char*> parts;
     while(!toWrite.empty()) {
-        char *p = toWrite.front().first;
-        int length = toWrite.front().second;
-        util::writeBlcok(workingPath + "/" + name, (unsigned char *) p, length);
+        parts.push_back(toWrite.front().first);
+        size += toWrite.front().second;
         toWrite.pop();
     }
+    char* p = new char[size];
+    for(int x = 0; x < parts.size() - 1; x++){
+        memcpy(p + (x * 10000), parts[x], 10000);
+    }
+    if(size%10000 > 0){
+        memcpy(p + ((parts.size() - 1) * 10000), parts[parts.size() - 1], size%10000);
+    }else{
+        memcpy(p + ((parts.size() - 1) * 10000), parts[parts.size() - 1], 10000);
+    }
+    util::writeBlcok(workingPath + "/" + name, (unsigned char *) p, size);
     std::cout << "You got a file" << std::endl;
 }
 
@@ -62,19 +73,22 @@ void messageProcessor::parseMessageQueueItem() {
         auto final = util::parseFile(data, uuidNext, length, nextSeg, nextTotal, nextName, totalLength);
 
         if(uuidNext != lastUUID && nextSeg != currentSeg){
+            std::cout << "Got file message" << std::endl;
+            std::cout << length << " " << nextSeg << " " << nextTotal << std::endl;
             toWrite.push(std::pair((char*)final, length));
             //lastUUID = uuidNext;
             currentSeg = nextSeg;
             totalSeg = nextTotal;
             name = nextName;
         }
+        else{
+            delete final;
+        }
         if(currentSeg == totalSeg){
+            std::cout << "Printing file message" << std::endl;
             lastUUID = uuidNext;
             currentSeg = -1;
             write();
-        }
-        else{
-            delete final;
         }
     }
 }
