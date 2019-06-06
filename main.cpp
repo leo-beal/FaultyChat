@@ -23,6 +23,8 @@ void sender(){
                 util::sendUDP((unsigned char *) send, total);
             }
             increment++;
+            delete data;
+            delete send;
         }
     }
 }

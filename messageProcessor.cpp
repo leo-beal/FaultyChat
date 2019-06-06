@@ -25,6 +25,7 @@ void messageProcessor::print() {
     toPrint.pop();
     std::string msg(p, length);
     std::cout << "Them: " << msg << std::endl;
+    delete p;
 }
 
 void messageProcessor::parseMessageQueueItem() {
@@ -38,6 +39,8 @@ void messageProcessor::parseMessageQueueItem() {
         if(uuidNext != lastUUID){
             toPrint.push((char*)final);
             lastUUID = uuidNext;
+        }else{
+            delete final;
         }
     }
 }
