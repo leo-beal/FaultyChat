@@ -36,6 +36,23 @@ namespace util{
             uint64_t& totalLength
             );
 
+    char* createFile(
+            const uint64_t& uuid,
+            const uint32_t& length,
+            const uint32_t part,
+            const uint32_t total,
+            const std::string name,
+            const char* data,
+            uint64_t& totalLength);
+
+    char* parseFile(const char *data,
+                                   uint64_t& uuid,
+                                   uint32_t& length,
+                                   uint32_t part,
+                                   uint32_t total,
+                                   std::string name,
+                                   uint64_t &totalLength);
+
     void sendUDP(const unsigned char* data, const uint64_t& length);
 
     unsigned char* getUDP(int& ret);

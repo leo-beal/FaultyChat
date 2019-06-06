@@ -1,5 +1,24 @@
 #include "Algorithms.hpp"
 
+std::vector <char*> algo::vectorize(char *memblock, const int &segs, const int &lenRem) {
+    std::vector<char*> vect;
+    for(int x = 0; x < segs; x++){
+        if(x < segs - 1) {
+            vect.push_back(new char[10000]);
+            memcpy(vect[x], memblock + x * 10000, 10000);
+        }else{
+            if(lenRem > 0){
+                vect.push_back(new char[lenRem]);
+                memcpy(vect[x], memblock + x * 10000, lenRem);
+            }else{
+                vect.push_back(new char[10000]);
+                memcpy(vect[x], memblock + x * 10000, 10000);
+            }
+        }
+    }
+    return vect;
+}
+
 char* algo::encodeHamming(char* data, uint64_t& dataLen){
     dataLen = dataLen * 2;
     char* toReturn = new char[dataLen];

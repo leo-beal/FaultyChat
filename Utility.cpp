@@ -79,6 +79,42 @@ unsigned char* util::createMessage(
     return msg;
 }
 
+char* createFile(
+        const uint64_t& uuid,
+        const uint32_t& length,
+        const uint32_t part,
+        const uint32_t total,
+        const std::string name,
+        const char* data,
+        uint64_t& totalLength){
+
+    // size of opcode + size of uuid + size of length + part + parts + name + length
+    totalLength = 1 + 8 + 4 + 4 + 4 + 32 + length;
+    char* msg = new char[totalLength];
+
+    //Set first byte to F (File) opcode
+    msg[0] = 'F';
+
+    //Set bytes 1-8 to the uuid
+    memcpy(msg + 1, (unsigned char *)&(uuid), 8);
+
+    //Set bytes 9-12 to the data length
+    memcpy(msg + 9, (unsigned char *)&(length), 4);
+
+    //Set bytes 13-16 to the part data
+    memcpy(msg + 13, (unsigned char *)&(part), 4);
+
+    //Set bytes 17-20 to the total parts data
+    memcpy(msg + 17, (unsigned char *)&(total), 4);
+
+    //Set bytes 21-42 to the name
+    memcpy(msg + 21, (unsigned char *)(name.c_str()), 32);
+
+    //Set bytes 53-10,052(max) to the data of the message
+    memcpy(msg + 53, data, length);
+
+    return msg;
+}
 
 //for (i = 0; i < N; i += 4)
 //thirty_two[i/4] = bytes[i] | (uint32_t)bytes[i+1] << 8
@@ -110,7 +146,58 @@ unsigned char* util::parseMessage(const char *data,
     }
 
     return msg;
+}
 
+char* util::parseFile(const char *data,
+                               uint64_t& uuid,
+                               uint32_t& length,
+                               uint32_t part,
+                               uint32_t total,
+                               std::string name,
+                                  uint64_t &totalLength) {
+
+    std::string uuidTemp;
+    for(int x = 7; x >= 0; x--){
+        uuidTemp += std::bitset<8>(data[x+1]).to_string();
+    }
+    uuid = std::bitset<64>(uuidTemp).to_ulong();
+
+    std::string lengthTemp;
+    for(int x = 3; x >= 0; x--){
+        lengthTemp += std::bitset<8>(data[x + 9]).to_string();
+    }
+
+    length = std::bitset<32>(lengthTemp).to_ullong();
+
+    std::string partTemp;
+    for(int x = 3; x >= 0; x--){
+        partTemp += std::bitset<8>(data[x + 13]).to_string();
+    }
+
+    part = std::bitset<32>(lengthTemp).to_ullong();
+
+    std::string totalTemp;
+    for(int x = 3; x >= 0; x--){
+        totalTemp += std::bitset<8>(data[x + 17]).to_string();
+    }
+
+    total = std::bitset<32>(lengthTemp).to_ullong();
+
+    totalLength = 1 + 8 + 4 + 4 + 4 + 32 + length;
+
+    for(int x = 0; x < 32; x++){
+        if(data[x + 21] != 0) {
+            name += data[x + 21];
+        }
+    }
+
+    char* msg = new char[length];
+
+    for(int x = 0; x < length; x++){
+        msg[x] = data[x + 53];
+    }
+
+    return msg;
 }
 
 void util::sendUDP(const unsigned char *data, const uint64_t& length) {
@@ -142,7 +229,6 @@ unsigned char* util::getUDP(int& ret) {
 char* util::readBlock(const std::string& path, int& segs, int& remLen) {
     std::streampos size;
     char* block;
-    remLen = 0;
 
     std::ifstream fileIn (path, std::ios::in | std::ios::binary | std::ios::ate);
     if(fileIn.is_open()){
@@ -157,10 +243,15 @@ char* util::readBlock(const std::string& path, int& segs, int& remLen) {
         return nullptr;
     }
 
-    long temp = size / 10;
-    if(size % 10 > 0){
+    if(size > 50000000){
+        std::cout << "File too large" << std::endl;
+        return nullptr;
+    }
+
+    long temp = size / 10000;
+    if(size % 10000 > 0){
         temp += 1;
-        remLen = (int)size%10;
+        remLen = (int)size%10000;
     }
     segs = (int)temp;
 
@@ -168,6 +259,6 @@ char* util::readBlock(const std::string& path, int& segs, int& remLen) {
 }
 
 void util::writeBlcok(const std::string& path, unsigned char *memBlock, const int &size) {
-    std::ofstream fileOut (path, std::ios::out | std::ios::binary);
+    std::ofstream fileOut (path, std::ios::out | std::ios::binary | std::ios::app);
     fileOut.write ((char*)memBlock, size);
 }

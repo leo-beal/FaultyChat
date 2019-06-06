@@ -8,6 +8,8 @@
 
 bool running;
 int increment;
+std::string workingPath;
+int copies;
 
 void sender(){
     while (running){
@@ -15,11 +17,68 @@ void sender(){
         std::cin >> readin;
         if(readin == "exit"){
             running = false;
-        }else {
+        }
+        else if(readin.substr(0, 2) == "/F"){
+            std::string path = workingPath + "/" + readin.substr(3);
+            std::string name = readin.substr(3);
+            int segs;
+            int rem;
+            char* file = util::readBlock(path, segs, rem);
+            if(file != nullptr){
+                std::vector<char*> parts = algo::vectorize(file, segs, rem);
+                for(int x = 0; x < parts.size() - 1; x++){
+                    uint64_t total = 0;
+                    auto data = util::createFile(
+                            increment,
+                            10000,
+                            x,
+                            parts.size() - 1,
+                            name,
+                            parts[x],
+                            total);
+                    auto send = algo::encodeHamming((char *) data, total);
+                    for(int y = 0; y < copies; y++) {
+                        util::sendUDP((unsigned char *) send, total);
+                    }
+                }
+                if(rem > 0){
+                    uint64_t total = 0;
+                    auto data = util::createFile(
+                            increment,
+                            rem,
+                            parts.size() - 1,
+                            parts.size() - 1,
+                            name, parts[parts.size() - 1],
+                            total);
+                    auto send = algo::encodeHamming((char *) data, total);
+                    for(int y = 0; y < copies; y++) {
+                        util::sendUDP((unsigned char *) send, total);
+                    }
+                }else{
+                    uint64_t total = 0;
+                    auto data = util::createFile(
+                            increment,
+                            10000,
+                            parts.size() - 1,
+                            parts.size() - 1,
+                            name,
+                            parts[parts.size() - 1],
+                            total);
+                    auto send = algo::encodeHamming((char *) data, total);
+                    for(int y = 0; y < copies; y++) {
+                        util::sendUDP((unsigned char *) send, total);
+                    }
+                }
+            }
+        }
+        else if(readin.substr(0, 2) == "/C"){
+            copies = std::stoi(readin.substr(3));
+        }
+        else {
             uint64_t total = 0;
             auto data = util::createMessage(increment, readin.length(), readin.c_str(), total);
             auto send = algo::encodeHamming((char *) data, total);
-            for(int x = 0; x < 50; x++) {
+            for(int x = 0; x < copies; x++) {
                 util::sendUDP((unsigned char *) send, total);
             }
             increment++;
@@ -86,7 +145,8 @@ int main(int argc, char* argv[]) {
                 portIn = std::stoi(std::string(argv[x+1]));
                 x++;
             }catch(...){
-                std::cout << "Improper usage of -n. Defaulting to 3 copies." << std::endl;
+                std::cout << "Improper usage of -pI." << std::endl;
+                return 0;
             }
         }
         if(std::string(argv[x]) == "-pO"){
@@ -94,14 +154,28 @@ int main(int argc, char* argv[]) {
                 portOut = std::stoi(std::string(argv[x+1]));
                 x++;
             }catch(...){
-                std::cout << "Improper usage of -t. Defaulting to 30 seconds" << std::endl;
+                std::cout << "Improper usage of -pO." << std::endl;
+                return 0;
             }
+        }
+        if(std::string(argv[x]) == "-c"){
+            try{
+                copies = std::stoi(std::string(argv[x+1]));
+                x++;
+            }catch(...){
+                std::cout << "Improper usage of -c." << std::endl;
+                return 0;
+            }
+        }
+        if(std::string(argv[x]) == "-w"){
+            workingPath = std::string(argv[x+1]);
+            x++;
         }
     }
 
     util::init(portIn, portOut);
 
-    messageProcessor proc(1);
+    messageProcessor proc(workingPath);
 
     running = true;
 

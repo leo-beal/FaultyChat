@@ -9,6 +9,8 @@
 #include <cstring>
 
 namespace algo{
+    std::vector <char*> vectorize(char *memblock, const int &segs, const int &lenRem);
+
     char* encodeHamming (char* data, uint64_t& dataLen);
 
     char* decodeHamming (char* data, uint64_t& dataLen);
