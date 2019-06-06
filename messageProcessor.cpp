@@ -73,7 +73,7 @@ void messageProcessor::parseMessageQueueItem() {
         auto final = util::parseFile(data, uuidNext, length, nextSeg, nextTotal, nextName, totalLength);
 
         if(uuidNext != lastUUID && nextSeg != currentSeg){
-            std::cout << length << " " << nextSeg << " " << nextTotal << std::endl;
+            //std::cout << length << " " << nextSeg << " " << nextTotal << std::endl;
             toWrite.push(std::pair((char*)final, length));
             //lastUUID = uuidNext;
             currentSeg = nextSeg;
