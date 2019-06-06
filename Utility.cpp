@@ -31,8 +31,11 @@ void util::init(int portIn, int portOut){
     serviaddr.sin_port = htons(portIn);
     serviaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
+    std::string sendSTD = "hello";
+
+    char* send = (char*)sendSTD.c_str();
     int time = 1000;
-    //setsockopt(sockifd, SOL_SOCKET, SO_RCVTIMEO, &time, 4);
+    setsockopt(sockifd, SOL_SOCKET, SO_RCVTIMEO, &time, 4);
 
     if (bind(sockifd, (struct sockaddr *)&serviaddr, sizeof(serviaddr)) < 0) {
         perror("bind failed");
@@ -40,7 +43,8 @@ void util::init(int portIn, int portOut){
         goto breakFunc;
     }
 
-    sendto(sockifd, (char*)1, 1, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
+
+    sendto(sockifd, send, 5, 0, (const struct sockaddr *) &servoaddr, sizeof(servoaddr));
 
     breakFunc:;
 }
@@ -85,15 +89,11 @@ unsigned char* util::parseMessage(const char *data,
         uint32_t &length,
         uint64_t &totalLength) {
 
-    std::cout << "Begin parse" << std::endl;
-
     std::string uuidTemp;
     for(int x = 7; x >= 0; x--){
         uuidTemp += std::bitset<8>(data[x+1]).to_string();
     }
     uuid = std::bitset<64>(uuidTemp).to_ulong();
-
-    std::cout << "UUID is " << uuid << std::endl;
 
     std::string lengthTemp;
     for(int x = 3; x >= 0; x--){
@@ -101,8 +101,6 @@ unsigned char* util::parseMessage(const char *data,
     }
 
     length = std::bitset<32>(lengthTemp).to_ullong();
-
-    std::cout << "Length is " << length << " (" << lengthTemp << ")" << std::endl;
 
     totalLength = 1 + 8 + 4 + length;
     unsigned char* msg = new unsigned char[length];
